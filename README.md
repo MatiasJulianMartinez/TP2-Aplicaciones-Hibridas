@@ -3,7 +3,7 @@
 ## Tecnologías Utilizadas
 
 <p align="left">
-  <img src="https://skillicons.dev/icons?i=react,nodejs,express,mongodb,javascript,vscode,postman" />
+  <img src="https://skillicons.dev/icons?i=react,nodejs,express,mongodb,javascript,vscode,thunderclient" />
 </p>
 
 - React  
@@ -11,7 +11,7 @@
 - MongoDB  
 - JWT  
 - JavaScript  
-- Postman  
+- ThunderClient 
 - VSCode  
 
 ---
@@ -57,8 +57,8 @@ Consiste en una aplicación web enfocada en el universo de los **Funko Pop**, pe
 
 ```bash
 1. Clonar el repositorio
-git clone https://github.com/tuusuario/mundo-funko
-cd mundo-funko
+git clone https://github.com/MatiasJulianMartinez/TP2-Aplicaciones-Hibridas.git
+cd TP2-Aplicaciones-Hibridas
 
 2. Configurar variables de entorno en el backend
 # En la carpeta BackEnd, crear un archivo .env
@@ -67,12 +67,12 @@ cd mundo-funko
 # - SECRET_KEY para JWT
 
 3. Instalar dependencias y levantar el backend
-cd BackEnd
+cd backend
 npm install
-npm run dev
+npm start
 
 4. Abrir nueva terminal, instalar y levantar frontend
-cd FrontEnd
+cd frontend
 npm install
 npm run dev
 
