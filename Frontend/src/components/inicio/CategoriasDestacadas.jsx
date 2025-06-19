@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { getCategorias } from "../../services/categoriaService";
 import { Link } from "react-router-dom";
 
+// Componente que muestra un resumen visual de las primeras 3 categorías disponibles
 const CategoriasDestacadas = () => {
   const [categorias, setCategorias] = useState([]);
 
+   // Carga inicial de las categorías desde el servicio, solo las primeras 3
   useEffect(() => {
     const cargar = async () => {
       try {
         const data = await getCategorias();
-        setCategorias(data.slice(0, 3)); 
+        setCategorias(data.slice(0, 3));  // Se muestran solo 3 categorías destacadas
       } catch (err) {
         console.error("Error al cargar categorías:", err.message);
       }

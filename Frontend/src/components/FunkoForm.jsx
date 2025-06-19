@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { getCategorias } from "../services/categoriaService";
 
+// Función del formulario para crear o editar un Funko
 const FunkoForm = ({ onGuardar, funko, modalId }) => {
+  // Estado para los datos del formulario
   const [form, setForm] = useState({
     nombre: "",
     descripcion: "",
@@ -12,9 +14,11 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     categoriaId: "",
   });
 
+  // Estado para las categorías disponibles y los errores de validación
   const [categorias, setCategorias] = useState([]);
   const [errores, setErrores] = useState({});
 
+  // useEffect para cargar las categorías desde el backend al montarse el componente
   useEffect(() => {
     const cargarCategorias = async () => {
       const data = await getCategorias();
@@ -23,6 +27,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     cargarCategorias();
   }, []);
 
+  // useEffect para cargar los datos del funko si está en modo edición
   useEffect(() => {
     if (funko) {
       setForm({
@@ -37,6 +42,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     }
   }, [funko]);
 
+ // Cuando cambia el ID del modal (por ej, se reinicia), limpia el formulario si no hay categoría
   useEffect(() => {
     if (!funko) {
       setForm({
@@ -52,10 +58,12 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     }
   }, [modalId]);
 
+   // Función para los cambios en los inputs del formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Función que valida los campos requeridos del formulario
   const validar = () => {
     const errores = {};
     if (!form.nombre.trim()) errores.nombre = "El nombre es obligatorio";
@@ -67,6 +75,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     return errores;
   };
 
+  // Función que maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     const erroresValidados = validar();
@@ -76,11 +85,12 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
     }
 
     setErrores({});
-    onGuardar(form);
+    onGuardar(form); 
   };
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Campo: Nombre */}
       <div className="mb-2">
         <label className="form-label">Nombre <span className="text-danger">*</span></label>
         <input
@@ -93,6 +103,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.nombre && <div className="text-danger">{errores.nombre}</div>}
       </div>
 
+      {/* Campo: Descripción */}
       <div className="mb-2">
         <label className="form-label">Descripción <span className="text-danger">*</span></label>
         <textarea
@@ -105,6 +116,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.descripcion && <div className="text-danger">{errores.descripcion}</div>}
       </div>
 
+      {/* Campo: Precio */}
       <div className="mb-2">
         <label className="form-label">Precio <span className="text-danger">*</span></label>
         <input
@@ -118,6 +130,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.precio && <div className="text-danger">{errores.precio}</div>}
       </div>
 
+      {/* Campo: Stock */}
       <div className="mb-2">
         <label className="form-label">Stock <span className="text-danger">*</span></label>
         <input
@@ -131,6 +144,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.stock && <div className="text-danger">{errores.stock}</div>}
       </div>
 
+      {/* Campo: Imagen */}
       <div className="mb-2">
         <label className="form-label">URL de imagen</label>
         <input
@@ -142,6 +156,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         />
       </div>
 
+      {/* Campo: Tipo */}
       <div className="mb-2">
         <label className="form-label">Tipo <span className="text-danger">*</span></label>
         <select
@@ -159,6 +174,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.tipo && <div className="text-danger">{errores.tipo}</div>}
       </div>
 
+      {/* Campo: Categoría */}
       <div className="mb-3">
         <label className="form-label">Categoría <span className="text-danger">*</span></label>
         <select
@@ -178,6 +194,7 @@ const FunkoForm = ({ onGuardar, funko, modalId }) => {
         {errores.categoriaId && <div className="text-danger">{errores.categoriaId}</div>}
       </div>
 
+      {/* Botón de envío */}
       <button className="btn btn-primary w-100" type="submit">
         Guardar
       </button>

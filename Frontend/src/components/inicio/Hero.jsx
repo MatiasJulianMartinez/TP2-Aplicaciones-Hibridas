@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import bannerFunko from "../../assets/imgs/banner-funko.jpg"; 
 
+// Componente principal del banner hero de la página de inicio
 const Hero = () => {
   return (
     <section

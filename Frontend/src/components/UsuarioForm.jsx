@@ -1,6 +1,8 @@
+// Función de el formulario de creación o edición de usuarios
 import { useState, useEffect } from "react";
 
 const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
+ // Estado para los datos del formulario
   const [form, setForm] = useState({
     nombre: "",
     email: "",
@@ -9,8 +11,10 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
     role: "cliente",
   });
 
+  // Estado para almacenar errores de validación
   const [errores, setErrores] = useState({});
 
+  // useEffect para cargar los datos del funko si está en modo edición
   useEffect(() => {
     if (usuario) {
       setForm({
@@ -33,11 +37,13 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
     setErrores({});
   }, [usuario, modalId]);
 
+  // Función para manejar los cambios en los inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
+  // Función de validación de campos
   const validar = () => {
     const newErrores = {};
 
@@ -62,6 +68,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
     return newErrores;
   };
 
+  // Función para enviar el formulario si pasa la validación
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -71,12 +78,14 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
       return;
     }
 
+    // Se construye el objeto que se envia al backend
     const usuarioFinal = {
       name: form.nombre,
       email: form.email,
       role: form.role.toLowerCase().trim(),
     };
 
+    // Solo se incluye la contraseña si fue ingresada
     if (form.password.trim() !== "") {
       usuarioFinal.password = form.password;
     }
@@ -87,6 +96,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
 
   return (
     <form onSubmit={handleSubmit} className="p-2">
+      {/* Campo: Nombre */}
       <div className="mb-3">
         <label className="form-label">Nombre<span className="text-danger">*</span></label>
         <input
@@ -99,6 +109,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
         {errores.nombre && <div className="invalid-feedback">{errores.nombre}</div>}
       </div>
 
+      {/* Campo: Email */}
       <div className="mb-3">
         <label className="form-label">Email<span className="text-danger">*</span></label>
         <input
@@ -111,6 +122,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
         {errores.email && <div className="invalid-feedback">{errores.email}</div>}
       </div>
 
+      {/* Campo: Contraseña */}
       <div className="mb-3">
         <label className="form-label">Contraseña{!usuario && <span className="text-danger">*</span>}</label>
         <input
@@ -125,6 +137,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
         {errores.password && <div className="invalid-feedback">{errores.password}</div>}
       </div>
 
+      {/* Campo: Repetir contraseña */}
       <div className="mb-3">
         <label className="form-label">Repetir contraseña{!usuario && <span className="text-danger">*</span>}</label>
         <input
@@ -139,6 +152,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
         {errores.repetirPassword && <div className="invalid-feedback">{errores.repetirPassword}</div>}
       </div>
 
+      {/* Campo: Rol */}
       <div className="mb-3">
         <label className="form-label">Rol</label>
         <select
@@ -152,6 +166,7 @@ const UsuarioForm = ({ onGuardar, usuario, modalId }) => {
         </select>
       </div>
 
+      {/* Botón de envío */}
       <button type="submit" className="btn btn-primary w-100">
         {usuario ? "Actualizar" : "Crear"}
       </button>

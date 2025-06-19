@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+// Función de modal de confirmación reutilizable
 const ModalConfirmacion = ({ visible, onConfirmar, onCancelar, mensaje }) => {
   useEffect(() => {
     if (visible) {
@@ -9,6 +10,7 @@ const ModalConfirmacion = ({ visible, onConfirmar, onCancelar, mensaje }) => {
   }, [visible]);
 
   return (
+    // Estructura de la modal de confirmación (Use Bootstrap)
     <div
       className="modal fade"
       id="modalConfirmacion"

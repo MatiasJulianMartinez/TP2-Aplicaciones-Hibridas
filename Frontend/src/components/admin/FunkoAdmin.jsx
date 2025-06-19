@@ -12,16 +12,17 @@ import ModalMensaje from "../ModalMensaje";
 import ModalConfirmacion from "../ModalConfirmacion";
 
 const FunkoAdmin = () => {
+  // Estados principales para manejar el listado de Funkos, edición, errores y modales
   const { token } = useContext(AuthContext);
   const [funkos, setFunkos] = useState([]);
   const [modoEdicion, setModoEdicion] = useState(false);
   const [funkoEditando, setFunkoEditando] = useState(null);
   const [error, setError] = useState("");
   const [modalId, setModalId] = useState(Date.now());
-
+  // Estados para manejar el modal de mensajes informativos
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState({ titulo: "", mensaje: "" });
-
+  // Estados para controlar el modal de confirmación
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
   const [accionConfirmada, setAccionConfirmada] = useState(() => () => {});
 
@@ -35,6 +36,7 @@ const FunkoAdmin = () => {
     setModalConfirmVisible(true);
   };
 
+  // Función para cargar los Funkos desde el backend
   const cargarFunkos = async () => {
     try {
       const data = await getFunkos(token);
@@ -44,10 +46,12 @@ const FunkoAdmin = () => {
     }
   };
 
+  // useEffect para cargar los Funkos cuando haya token
   useEffect(() => {
     if (token) cargarFunkos();
   }, [token]);
 
+  // Función para guardar un Funko nuevo o actualizar uno existente
   const handleGuardar = async (form) => {
     try {
       if (modoEdicion && funkoEditando) {
@@ -58,16 +62,17 @@ const FunkoAdmin = () => {
         mostrarModal("Éxito", "Funko creado correctamente");
       }
 
-      await cargarFunkos();
+      await cargarFunkos(); // Actualiza la lista luego de guardar
       setModoEdicion(false);
       setFunkoEditando(null);
-      document.getElementById("cerrarModal")?.click();
+      document.getElementById("cerrarModal")?.click(); // se cierra el modal
     } catch (err) {
       console.error(err);
       mostrarModal("Error", "Error al guardar el Funko");
     }
   };
 
+  // Función para abrir el formulario de edición de un Funko
   const handleEditar = (funko) => {
     setModoEdicion(true);
     setFunkoEditando(funko);
@@ -75,12 +80,14 @@ const FunkoAdmin = () => {
     modal.show();
   };
 
+  // Función para limpiar el formulario y preparar para crear un nuevo Funko
   const handleCrear = () => {
     setModoEdicion(false);
     setFunkoEditando(null);
-    setModalId(Date.now());
+    setModalId(Date.now()); // Se reinicia el modal para limpiar el form
   };
 
+  // Función para eliminar un Funko
   const handleEliminar = (id) => {
     confirmarAccion(async () => {
       try {
@@ -97,8 +104,10 @@ const FunkoAdmin = () => {
     <div className="container py-4">
       <h2 className="text-center mb-4">🎯 Gestión de Funkos</h2>
 
+      {/* Alerta de error si falla la carga */}
       {error && <div className="alert alert-danger">{error}</div>}
 
+      {/* Botón para crear un nuevo Funko */}
       <div className="text-center mb-4">
         <button
           className="btn btn-success shadow-sm px-4"
@@ -110,6 +119,7 @@ const FunkoAdmin = () => {
         </button>
       </div>
 
+      {/* Listado de Funkos  */}
       <div className="row g-4">
         {funkos.length === 0 ? (
           <p className="text-center text-muted">No hay Funkos cargados aún.</p>
@@ -126,8 +136,13 @@ const FunkoAdmin = () => {
         )}
       </div>
 
-      {/* Modal del Formulario */}
-      <div className="modal fade" id="modalFunko" tabIndex="-1" aria-hidden="true">
+      {/* Modal de formulario para crear o editar Funkos */}
+      <div
+        className="modal fade"
+        id="modalFunko"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content border-0 shadow-lg">
             <div className="modal-header bg-success text-white">
@@ -152,7 +167,7 @@ const FunkoAdmin = () => {
         </div>
       </div>
 
-      {/* Modal de mensajes */}
+      {/* Modal para mostrar mensajes */}
       <ModalMensaje
         titulo={modalData.titulo}
         mensaje={modalData.mensaje}
@@ -160,7 +175,7 @@ const FunkoAdmin = () => {
         onClose={() => setModalVisible(false)}
       />
 
-      {/* Modal de confirmación */}
+      {/* Modal para confirmar eliminar */}
       <ModalConfirmacion
         visible={modalConfirmVisible}
         mensaje="¿Estás seguro de eliminar este Funko?"

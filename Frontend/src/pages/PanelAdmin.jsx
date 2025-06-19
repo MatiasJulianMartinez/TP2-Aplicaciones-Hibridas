@@ -3,13 +3,15 @@ import FunkoAdmin from "../components/admin/FunkoAdmin";
 import CategoriaAdmin from "../components/admin/CategoriaAdmin"; 
 import UsuarioAdmin from "../components/admin/UsuarioAdmin";
 
+// Vista del panel de administración que permite alternar entre los formularios CRUD
 const PanelAdmin = () => {
-  const [vista, setVista] = useState("funkos");
+  const [vista, setVista] = useState("funkos"); // Estado para saber qué sección se está visualizando
 
   return (
     <div className="container py-5">
       <h1 className="text-center mb-4">Panel de Administración</h1>
 
+      {/* Botones para cambiar entre las vistas: Funkos, Categorías o Usuarios */}
       <div className="d-flex justify-content-center gap-3 mb-4">
         <button
           className={`btn ${vista === "funkos" ? "btn-dark" : "btn-outline-dark"}`}
@@ -31,10 +33,10 @@ const PanelAdmin = () => {
         </button>
       </div>
 
-      {/* Renderizar el CRUD según vista */}
+      {/* Renderiza el componente correspondiente según la vista seleccionada */}
       {vista === "funkos" && <FunkoAdmin />}
       {vista === "categorias" && <CategoriaAdmin />}
-      {vista === "usuarios" && <UsuarioAdmin/>}
+      {vista === "usuarios" && <UsuarioAdmin />}
     </div>
   );
 };

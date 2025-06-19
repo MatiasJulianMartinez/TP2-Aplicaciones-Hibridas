@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 
+// Función de la modal de mensaje informativo reutilizable
 const ModalMensaje = ({ titulo, mensaje, visible, onClose }) => {
   useEffect(() => {
     if (visible) {
@@ -9,6 +10,7 @@ const ModalMensaje = ({ titulo, mensaje, visible, onClose }) => {
   }, [visible]);
 
   return (
+    // Estructura de la modal que muestra un mensaje con botón "Aceptar"
     <div
       className="modal fade"
       id="modalMensaje"

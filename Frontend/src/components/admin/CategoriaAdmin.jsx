@@ -12,6 +12,7 @@ import ModalMensaje from "../ModalMensaje";
 import ModalConfirmacion from "../ModalConfirmacion";
 
 const CategoriaAdmin = () => {
+  // Estados principales para manejar token, listado, edición y errores
   const { token } = useContext(AuthContext);
   const [categorias, setCategorias] = useState([]);
   const [modoEdicion, setModoEdicion] = useState(false);
@@ -23,16 +24,19 @@ const CategoriaAdmin = () => {
   const [accionConfirmada, setAccionConfirmada] = useState(() => () => {});
   const [error, setError] = useState("");
 
+  // Función para mostrar un modal de mensaje con texto personalizado
   const mostrarModal = (titulo, mensaje) => {
     setModalData({ titulo, mensaje });
     setModalVisible(true);
   };
 
+  // Función para configurar y mostrar el modal de confirmación
   const confirmarAccion = (callback) => {
     setAccionConfirmada(() => callback);
     setModalConfirmVisible(true);
   };
 
+  // Función para cargar las categorías desde el backend
   const cargarCategorias = async () => {
     try {
       const data = await getCategorias(token);
@@ -42,10 +46,12 @@ const CategoriaAdmin = () => {
     }
   };
 
+  // useEffect para cargar las categorias cuando haya token
   useEffect(() => {
     if (token) cargarCategorias();
   }, [token]);
 
+  // Función para guardar una nueva categoría o actualizar una existente
   const handleGuardar = async (form) => {
     try {
       if (modoEdicion && categoriaEditando) {
@@ -56,29 +62,34 @@ const CategoriaAdmin = () => {
         mostrarModal("Éxito", "Categoría creada correctamente");
       }
 
-      await cargarCategorias();
+      await cargarCategorias(); // Actualiza la lista luego de guardar
       setModoEdicion(false);
       setCategoriaEditando(null);
-      document.getElementById("cerrarModalCategoria")?.click();
+      document.getElementById("cerrarModalCategoria")?.click(); // se cierra el modal
     } catch (err) {
       console.error(err);
       mostrarModal("Error", "Ocurrió un problema al guardar la categoría.");
     }
   };
 
+  // Función para abrir el formulario de edición
   const handleEditar = (categoria) => {
     setModoEdicion(true);
     setCategoriaEditando(categoria);
-    const modal = new bootstrap.Modal(document.getElementById("modalCategoria"));
+    const modal = new bootstrap.Modal(
+      document.getElementById("modalCategoria")
+    );
     modal.show();
   };
 
+  // Función para limpiar el formulario para la creación de una nueva categoría
   const handleCrear = () => {
     setModoEdicion(false);
     setCategoriaEditando(null);
     setModalId(Date.now());
   };
 
+  // Función para eliminar una categoría
   const handleEliminar = (id) => {
     confirmarAccion(async () => {
       try {
@@ -95,8 +106,10 @@ const CategoriaAdmin = () => {
     <div className="container py-4">
       <h2 className="text-center mb-4">🗂️ Gestión de Categorías</h2>
 
+      {/* Alerta de error si falla la carga */}
       {error && <div className="alert alert-danger">{error}</div>}
 
+      {/* Botón para crear una nueva categoría */}
       <div className="text-center mb-4">
         <button
           className="btn btn-success shadow-sm px-4"
@@ -108,9 +121,12 @@ const CategoriaAdmin = () => {
         </button>
       </div>
 
+      {/* Listado de tarjetas de categoría */}
       <div className="row g-4">
         {categorias.length === 0 ? (
-          <p className="text-center text-muted">No hay categorías registradas.</p>
+          <p className="text-center text-muted">
+            No hay categorías registradas.
+          </p>
         ) : (
           categorias.map((c) => (
             <div className="col-md-4" key={c._id}>
@@ -124,8 +140,13 @@ const CategoriaAdmin = () => {
         )}
       </div>
 
-      {/* Modal de Formulario */}
-      <div className="modal fade" id="modalCategoria" tabIndex="-1" aria-hidden="true">
+      {/* Modal con el formulario de creación o edición */}
+      <div
+        className="modal fade"
+        id="modalCategoria"
+        tabIndex="-1"
+        aria-hidden="true"
+      >
         <div className="modal-dialog">
           <div className="modal-content border-0 shadow-lg">
             <div className="modal-header bg-success text-white">
@@ -150,7 +171,7 @@ const CategoriaAdmin = () => {
         </div>
       </div>
 
-      {/* Modal de mensajes */}
+      {/* Modal para mostrar mensajes */}
       <ModalMensaje
         titulo={modalData.titulo}
         mensaje={modalData.mensaje}
@@ -158,7 +179,7 @@ const CategoriaAdmin = () => {
         onClose={() => setModalVisible(false)}
       />
 
-      {/* Modal de confirmación */}
+      {/* Modal para confirmar eliminar */}
       <ModalConfirmacion
         visible={modalConfirmVisible}
         mensaje="¿Estás seguro de eliminar esta categoría?"

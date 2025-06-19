@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import { getFunkos } from "../../services/funkoService";
 import { Link } from "react-router-dom";
 
+// Componente que muestra una sección con los primeros 3 Funkos destacados
 const FunkoDestacados = () => {
-  const [funkos, setFunkos] = useState([]);
+  const [funkos, setFunkos] = useState([]); 
 
   useEffect(() => {
+     // Función que carga los Funkos desde el backend al montarse el componente
     const cargarFunkos = async () => {
       try {
         const data = await getFunkos();
-        setFunkos(data.slice(0, 3)); 
+        setFunkos(data.slice(0, 3));  // Muestra solo los primeros 3 funkos
       } catch (error) {
         console.error("Error al cargar funkos", error);
       }
     };
-    cargarFunkos();
+    cargarFunkos(); 
   }, []);
 
   return (

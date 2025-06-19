@@ -1,5 +1,5 @@
 import React from "react";
-
+// Componente que muestra una sección destacando las ventajas de comprar en Mundo Funko
 const Caracteristicas = () => {
   return (
     <section className="py-5 bg-light">
@@ -7,7 +7,7 @@ const Caracteristicas = () => {
         <h2 className="mb-5 fw-bold">¿Por qué elegir <span className="text-warning">Mundo Funko</span>?</h2>
 
         <div className="row g-4">
-          {/* ✅ Item 1 */}
+          {/* Característica 1: Variedad */}
           <div className="col-md-4">
             <div className="p-4 bg-white border rounded shadow-sm h-100">
               <i className="bi bi-box-seam fs-1 text-primary mb-3"></i>
@@ -18,7 +18,7 @@ const Caracteristicas = () => {
             </div>
           </div>
 
-          {/* ✅ Item 2 */}
+          {/* Característica 2: Exclusividad */}
           <div className="col-md-4">
             <div className="p-4 bg-white border rounded shadow-sm h-100">
               <i className="bi bi-stars fs-1 text-success mb-3"></i>
@@ -29,7 +29,7 @@ const Caracteristicas = () => {
             </div>
           </div>
 
-          {/* ✅ Item 3 */}
+          {/* Característica 3: Pasión */}
           <div className="col-md-4">
             <div className="p-4 bg-white border rounded shadow-sm h-100">
               <i className="bi bi-heart-fill fs-1 text-danger mb-3"></i>

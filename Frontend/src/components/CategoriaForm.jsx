@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 
+// Función para gestionar el formulario de creacion o edicion de una categoría
 const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
+  // Estado para los valores del formulario
   const [form, setForm] = useState({
     nombre: "",
     descripcion: "",
@@ -9,8 +11,10 @@ const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
     material: "",
   });
 
+  // Estado para almacenar errores de validación
   const [errores, setErrores] = useState({});
 
+   // useEffect para cargar los datos del funko si está en modo edición
   useEffect(() => {
     if (categoria) {
       setForm({
@@ -23,6 +27,7 @@ const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
     }
   }, [categoria]);
 
+  // Cuando cambia el ID del modal (por ej, se reinicia), limpia el formulario si no hay categoría
   useEffect(() => {
     if (!categoria) {
       setForm({
@@ -36,10 +41,12 @@ const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
     }
   }, [modalId]);
 
+  // Función para los cambios en los inputs del formulario
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // Función para validar los campos obligatorios del formulario
   const validar = () => {
     const nuevosErrores = {};
     if (!form.nombre.trim()) nuevosErrores.nombre = "El nombre es obligatorio";
@@ -49,6 +56,7 @@ const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
     return nuevosErrores;
   };
 
+  // Función que maneja el envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     const nuevosErrores = validar();
@@ -57,16 +65,19 @@ const CategoriaForm = ({ onGuardar, categoria, modalId }) => {
       return;
     }
 
+    // Procesa los tags separandolos por coma y elimina los espacios vacíos
     const nuevaCategoria = {
       ...form,
       tags: form.tags.split(",").map((t) => t.trim()).filter((t) => t !== ""),
     };
 
-    onGuardar(nuevaCategoria);
+    onGuardar(nuevaCategoria); // Llamado a la función que guarda la categoría
   };
 
+  // Función para verificar si un campo es obligatorio
   const esObligatorio = (campo) =>
     ["nombre", "descripcion", "paisOrigen", "material"].includes(campo);
+
 
   return (
     <form onSubmit={handleSubmit}>

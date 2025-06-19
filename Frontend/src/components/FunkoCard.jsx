@@ -1,21 +1,16 @@
+// Función de la Card individual con información de un Funko y botones para editar o eliminar
 const FunkoCard = ({ funko, onEditar, onEliminar }) => {
   return (
     <div className="card shadow-sm h-100">
-      {/* Imagen */}
       {funko.imagen && (
         <img src={funko.imagen} alt={funko.nombre} className="imagen-funko" />
       )}
-
       <div className="card-body d-flex flex-column">
-        {/* Título */}
         <h5 className="card-title">{funko.nombre}</h5>
-
-        {/* Descripción */}
         {funko.descripcion && (
           <p className="card-text text-muted">{funko.descripcion}</p>
         )}
 
-        {/* Detalles */}
         <p className="card-text mb-3">
           <strong>Precio:</strong> ${funko.precio}
           <br />
@@ -28,7 +23,7 @@ const FunkoCard = ({ funko, onEditar, onEliminar }) => {
           <strong>Usuario:</strong> {funko.usuario}
         </p>
 
-        {/* Botones */}
+        {/* Botones para editar o eliminar el Funko */}
         <div className="mt-auto d-flex justify-content-between">
           <button
             className="btn btn-sm btn-warning"

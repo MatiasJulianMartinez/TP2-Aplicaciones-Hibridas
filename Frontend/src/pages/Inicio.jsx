@@ -5,6 +5,7 @@ import Eventos from "../components/inicio/Eventos";
 import PieDePagina from "../components/inicio/PieDePagina";
 import CategoriasDestacadas from "../components/inicio/CategoriasDestacadas";
 
+// Vista principal donde se agrupa las secciones de Mundo Funko
 const Inicio = () => {
   return (
     <div>
@@ -19,3 +20,4 @@ const Inicio = () => {
 };
 
 export default Inicio;
+

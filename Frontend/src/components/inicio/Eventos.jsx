@@ -1,5 +1,6 @@
 import React from "react";
 
+// Lista de eventos de Mundo Funko
 const eventos = [
   {
     titulo: "Expo Coleccionistas 2025",
@@ -13,7 +14,7 @@ const eventos = [
     lugar: "Costa Salguero",
     fecha: "6 al 8 de septiembre",
     descripcion: "Stands exclusivos de Funko Pop",
-    imagen: "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/comic-con-arg-1500x610_0.png", // ejemplo ilustrativo
+    imagen: "https://turismo.buenosaires.gob.ar/sites/turismo/files/field/image/comic-con-arg-1500x610_0.png", 
   },
   {
     titulo: "Feria Friki Fest",
@@ -24,6 +25,7 @@ const eventos = [
   },
 ];
 
+// Componente muestra los eventos por realizarse
 const Eventos = () => {
   return (
     <section className="py-5 bg-light">

@@ -1,5 +1,6 @@
 import React from "react";
 
+// Componente de pie de página (footer) con derechos de autor y enlaces a redes sociales
 const PieDePagina = () => {
   return (
     <footer className="bg-dark text-light py-4 mt-5">

@@ -12,6 +12,7 @@ import ModalMensaje from "../ModalMensaje";
 import ModalConfirmacion from "../ModalConfirmacion";
 
 const UsuarioAdmin = () => {
+  // Estados principales para manejar token, lista de usuarios, edición y errores
   const { token } = useContext(AuthContext);
   const [usuarios, setUsuarios] = useState([]);
   const [modoEdicion, setModoEdicion] = useState(false);
@@ -19,9 +20,11 @@ const UsuarioAdmin = () => {
   const [error, setError] = useState("");
   const [modalId, setModalId] = useState(Date.now());
 
+  // Estados para manejar el modal de mensajes informativos
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState({ titulo: "", mensaje: "" });
 
+  // Estados para controlar el modal de confirmación
   const [modalConfirmVisible, setModalConfirmVisible] = useState(false);
   const [accionConfirmada, setAccionConfirmada] = useState(() => () => {});
 
@@ -35,6 +38,7 @@ const UsuarioAdmin = () => {
     setModalConfirmVisible(true);
   };
 
+  // Función para cargar los usuarios desde el backend
   const cargarUsuarios = async () => {
     try {
       const data = await getUsuarios(token);
@@ -44,10 +48,12 @@ const UsuarioAdmin = () => {
     }
   };
 
+  // Carga usuarios cuando se obtiene un token válido
   useEffect(() => {
     if (token) cargarUsuarios();
   }, [token]);
 
+  // Función para guardar un usuario nuevo o actualizar uno existente
   const handleGuardar = async (form) => {
     try {
       if (modoEdicion && usuarioEditando) {
@@ -58,15 +64,16 @@ const UsuarioAdmin = () => {
         mostrarModal("Éxito", "Usuario creado correctamente");
       }
 
-      await cargarUsuarios();
+      await cargarUsuarios(); // Actualiza la lista luego de guardar
       setModoEdicion(false);
       setUsuarioEditando(null);
-      document.getElementById("cerrarModalUsuario")?.click();
+      document.getElementById("cerrarModalUsuario")?.click(); // se cierra el modal
     } catch (err) {
       mostrarModal("Error", "Error al guardar el usuario");
     }
   };
 
+  // Función para abrir el formulario de edición de un usuario
   const handleEditar = (usuario) => {
     setModoEdicion(true);
     setUsuarioEditando(usuario);
@@ -74,12 +81,14 @@ const UsuarioAdmin = () => {
     modal.show();
   };
 
+  // Limpia el formulario para registrar un nuevo usuario
   const handleCrear = () => {
     setModoEdicion(false);
     setUsuarioEditando(null);
     setModalId(Date.now());
   };
 
+  // Función para eliminar un usuario
   const handleEliminar = (id) => {
     confirmarAccion(async () => {
       try {
@@ -94,19 +103,20 @@ const UsuarioAdmin = () => {
 
   return (
     <>
+      {/* Boton para agregar usuario */}
       <div className="text-center mb-3">
-      <h2 className="text-center mb-4">👤 Gestión de Usuarios</h2>
-
+        <h2 className="text-center mb-4">👤 Gestión de Usuarios</h2>
         <button
           className="btn btn-primary"
           data-bs-toggle="modal"
           data-bs-target="#modalUsuario"
           onClick={handleCrear}
         >
-         ➕ Crear nuevo Usuario
+          ➕ Crear nuevo Usuario
         </button>
       </div>
 
+      {/* Listado de usuarios */}
       <div className="row">
         {usuarios.map((u) => (
           <div className="col-md-4" key={u._id}>
@@ -119,7 +129,7 @@ const UsuarioAdmin = () => {
         ))}
       </div>
 
-      {/* Modal de Formulario */}
+      {/* Modal de creación/edición de usuario */}
       <div
         className="modal fade"
         id="modalUsuario"
@@ -150,7 +160,7 @@ const UsuarioAdmin = () => {
         </div>
       </div>
 
-      {/* Modal de mensajes */}
+      {/* Modal de mensajes  */}
       <ModalMensaje
         titulo={modalData.titulo}
         mensaje={modalData.mensaje}
@@ -158,7 +168,7 @@ const UsuarioAdmin = () => {
         onClose={() => setModalVisible(false)}
       />
 
-      {/* Modal de confirmación */}
+      {/* Modal para confirmar eliminar */}
       <ModalConfirmacion
         visible={modalConfirmVisible}
         mensaje="¿Estás seguro de eliminar este usuario?"
